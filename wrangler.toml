@@ -1,0 +1,24 @@
+name = "fii-dii-post-generator"
+main = "src/index.ts"
+compatibility_date = "2025-03-24"
+
+# Secrets (set via `wrangler secret put`):
+# WORKER_API_KEY
+# TAPETIDE_API_URL
+
+[vars]
+ENVIRONMENT = "production"
+
+[[containers]]
+class_name = "ScreenshotContainer"
+image = "./container/Dockerfile"
+instance_type = "basic"
+max_instances = 1
+
+[[durable_objects.bindings]]
+class_name = "ScreenshotContainer"
+name = "SCREENSHOT_CONTAINER"
+
+[[migrations]]
+new_sqlite_classes = ["ScreenshotContainer"]
+tag = "v1"

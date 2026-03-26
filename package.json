@@ -1,0 +1,19 @@
+{
+  "name": "fii-dii-post-generator",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "vitest --run"
+  },
+  "dependencies": {
+    "@cloudflare/containers": "^0.0.7"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250313.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.1.0",
+    "wrangler": "^4.75.0"
+  }
+}

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080, height=1080">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+      colors: {
+        sell: '#dc2626',
+        'sell-soft': '#fef2f2',
+        buy: '#059669',
+        'buy-soft': '#ecfdf5',
+        ink: '#0f172a',
+        subtle: '#64748b',
+        muted: '#94a3b8',
+        surface: '#f8fafc',
+        card: '#ffffff',
+        divider: '#e2e8f0',
+        brand: '#0EA882',
+      }
+    }
+  }
+}
+</script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    width: 1080px; height: 1080px; overflow: hidden;
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+</style>
+</head>
+<body class="bg-white text-ink">
+<script>/*__DATA__*/</script>
+
+<div class="flex flex-col h-[1080px] px-12 py-10">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-8">
+    <div class="flex items-center gap-4">
+      <div class="relative w-[56px] h-[56px] flex items-center justify-center">
+        <div class="absolute inset-0 rounded-2xl bg-brand/15"></div>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="30" height="30" class="relative z-10">
+          <rect x="12" y="12" width="76" height="76" rx="22" fill="none" stroke="#0EA882" stroke-width="10"/>
+          <path d="M 30 66 L 45 46 L 55 54 L 70 34" fill="none" stroke="#0EA882" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="30" cy="66" r="7.5" fill="#0EA882"/><circle cx="70" cy="34" r="7.5" fill="#0EA882"/>
+        </svg>
+      </div>
+      <div>
+        <div class="text-[24px] font-extrabold tracking-tight leading-none">Tapetide</div>
+        <div class="text-[12px] font-semibold text-muted tracking-wide mt-0.5">Stock Research Platform</div>
+      </div>
+    </div>
+    <div class="text-right">
+      <div class="text-[22px] font-extrabold tracking-tight leading-none">FII DII Daily Update</div>
+      <div class="text-[14px] font-medium text-subtle mt-1.5" id="fullDate"></div>
+    </div>
+  </div>
+
+  <!-- Hero: FII left | DII right -->
+  <div class="grid grid-cols-2 gap-8 mb-6">
+    <!-- FII -->
+    <div>
+      <div class="flex items-center gap-2 mb-3">
+        <div class="w-3.5 h-3.5 rounded-full bg-sell"></div>
+        <span class="text-[18px] font-extrabold text-ink uppercase tracking-wide">FII / FPI</span>
+      </div>
+      <div class="text-[58px] font-black tracking-tighter leading-none" id="fiiNet"></div>
+      <div class="flex items-center gap-5 mt-3 text-subtle">
+        <div class="flex items-center gap-1.5">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+          <span class="text-[15px] font-semibold" id="fiiBuy"></span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+          <span class="text-[15px] font-semibold" id="fiiSell"></span>
+        </div>
+      </div>
+    </div>
+    <!-- DII -->
+    <div class="text-right">
+      <div class="flex items-center gap-2 mb-3 justify-end">
+        <span class="text-[18px] font-extrabold text-ink uppercase tracking-wide">DII</span>
+        <div class="w-3.5 h-3.5 rounded-full bg-buy"></div>
+      </div>
+      <div class="text-[58px] font-black tracking-tighter leading-none" id="diiNet"></div>
+      <div class="flex items-center gap-5 mt-3 justify-end text-subtle">
+        <div class="flex items-center gap-1.5">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+          <span class="text-[15px] font-semibold" id="diiBuy"></span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+          <span class="text-[15px] font-semibold" id="diiSell"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Net Combined -->
+  <div class="flex items-center justify-center mb-6">
+    <div class="bg-surface rounded-2xl border border-divider px-10 py-4 text-center">
+      <span class="text-[13px] font-bold text-ink uppercase tracking-widest">Net Combined</span>
+      <div class="text-[36px] font-black tracking-tight leading-tight mt-1" id="combined"></div>
+    </div>
+  </div>
+
+  <!-- Market Split Bar -->
+  <div class="mb-7">
+    <div class="flex justify-between mb-2">
+      <span class="text-[14px] font-extrabold text-sell uppercase" id="fiiPctLabel"></span>
+      <span class="text-[14px] font-extrabold text-buy uppercase" id="diiPctLabel"></span>
+    </div>
+    <div class="w-full flex h-4 rounded-full overflow-hidden">
+      <div class="h-full bg-sell rounded-l-full" id="barFii"></div>
+      <div class="h-full bg-buy rounded-r-full" id="barDii"></div>
+    </div>
+  </div>
+
+  <!-- 2x2 Grid -->
+  <div class="grid grid-cols-2 gap-5 flex-1">
+    <!-- FII Streak -->
+    <div class="bg-surface rounded-2xl border border-divider flex items-center gap-4 px-6 py-4">
+      <div class="w-14 h-14 rounded-xl flex items-center justify-center shrink-0" id="fiiStreakIcon"></div>
+      <div class="flex-1 min-w-0">
+        <div class="text-[13px] font-bold text-ink uppercase tracking-wide">FII Streak</div>
+        <div class="text-[22px] font-extrabold leading-tight mt-1" id="fiiStreakVal"></div>
+      </div>
+      <div class="text-right shrink-0">
+        <div class="text-[13px] font-bold text-ink uppercase tracking-wide">Streak Total</div>
+        <div class="text-[20px] font-extrabold leading-tight mt-1" id="fiiStreakTotal"></div>
+      </div>
+    </div>
+    <!-- DII Streak -->
+    <div class="bg-surface rounded-2xl border border-divider flex items-center gap-4 px-6 py-4">
+      <div class="w-14 h-14 rounded-xl flex items-center justify-center shrink-0" id="diiStreakIcon"></div>
+      <div class="flex-1 min-w-0">
+        <div class="text-[13px] font-bold text-ink uppercase tracking-wide">DII Streak</div>
+        <div class="text-[22px] font-extrabold leading-tight mt-1" id="diiStreakVal"></div>
+      </div>
+      <div class="text-right shrink-0">
+        <div class="text-[13px] font-bold text-ink uppercase tracking-wide">Streak Total</div>
+        <div class="text-[20px] font-extrabold leading-tight mt-1" id="diiStreakTotal"></div>
+      </div>
+    </div>
+    <!-- FII Index Futures L/S -->
+    <div class="bg-surface rounded-2xl border border-divider flex items-center gap-4 px-6 py-4">
+      <div class="w-14 h-14 rounded-xl flex items-center justify-center shrink-0" id="faoIcon"></div>
+      <div class="flex-1 min-w-0">
+        <div class="text-[13px] font-bold text-ink uppercase tracking-wide">FII Idx Futures L/S</div>
+        <div class="flex items-baseline gap-2 mt-1">
+          <span class="text-[24px] font-black leading-tight" id="faoLongPct"></span>
+          <span class="text-[13px] font-bold" id="faoSentiment"></span>
+        </div>
+      </div>
+      <div class="w-28 shrink-0">
+        <div class="w-full flex h-3 rounded-full overflow-hidden">
+          <div class="h-full bg-buy rounded-l-full" id="faoBarLong"></div>
+          <div class="h-full bg-sell rounded-r-full" id="faoBarShort"></div>
+        </div>
+        <div class="flex justify-between mt-1">
+          <span class="text-[10px] font-bold text-buy">Long</span>
+          <span class="text-[10px] font-bold text-sell">Short</span>
+        </div>
+      </div>
+    </div>
+    <!-- 30-Day Flows -->
+    <div class="bg-surface rounded-2xl border border-divider flex items-center gap-4 px-6 py-4">
+      <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-sell-soft to-buy-soft flex items-center justify-center shrink-0">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/>
+        </svg>
+      </div>
+      <div class="flex-1 min-w-0">
+        <div class="text-[13px] font-bold text-ink uppercase tracking-wide">30-Day Net Flows</div>
+        <div class="flex gap-6 mt-1.5">
+          <div>
+            <span class="text-[12px] font-bold text-subtle">FII </span>
+            <span class="text-[18px] font-extrabold" id="fii30d"></span>
+          </div>
+          <div>
+            <span class="text-[12px] font-bold text-subtle">DII </span>
+            <span class="text-[18px] font-extrabold" id="dii30d"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="flex items-center justify-between mt-5">
+    <span class="text-[13px] font-semibold text-brand">tapetide.com/fii-dii-data</span>
+    <div class="flex items-center gap-2 text-subtle">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+      <span class="text-[13px] font-semibold leading-none">@tapetide</span>
+    </div>
+  </div>
+
+</div>
+<script>/*__SHARED__*/</script>
+<script>renderData(DATA, 26);</script>
+</body>
+</html>
