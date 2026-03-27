@@ -3,7 +3,6 @@ main = "src/index.ts"
 compatibility_date = "2025-03-24"
 
 # Secrets (set via `wrangler secret put`):
-# WORKER_API_KEY
 # TAPETIDE_API_URL
 
 [vars]

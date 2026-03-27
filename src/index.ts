@@ -16,7 +16,7 @@ export default {
     }
 
     if (url.pathname === '/generate' && request.method === 'POST') {
-      return handleGenerate(request, env);
+      return handleGenerate(env);
     }
 
     if (url.pathname === '/preview') {
@@ -26,11 +26,6 @@ export default {
     return Response.json({ error: 'Not found' }, { status: 404 });
   },
 };
-
-function authenticate(request: Request, env: Env): boolean {
-  const key = request.headers.get('X-API-Key');
-  return !!key && key === env.WORKER_API_KEY;
-}
 
 /** Fetch latest FII/DII data from Tapetide API */
 async function fetchFiiDiiData(env: Env): Promise<PostData> {
@@ -110,21 +105,13 @@ async function takeScreenshot(env: Env, data: PostData, format: string): Promise
  * Query: ?format=twitter|instagram|both (default: both)
  * Returns JSON with base64 images + caption text.
  */
-async function handleGenerate(request: Request, env: Env): Promise<Response> {
-  if (!authenticate(request, env)) {
-    return Response.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
+async function handleGenerate(env: Env): Promise<Response> {
   try {
-    const url = new URL(request.url);
-    const format = url.searchParams.get('format') || 'both';
     const data = await fetchFiiDiiData(env);
     const caption = composeTweet(data);
 
-    const formats = format === 'both' ? ['twitter', 'instagram'] : [format];
     const images: Record<string, string> = {};
-
-    for (const fmt of formats) {
+    for (const fmt of ['twitter', 'instagram']) {
       const buf = await takeScreenshot(env, data, fmt);
       images[fmt] = bufferToBase64(buf);
     }

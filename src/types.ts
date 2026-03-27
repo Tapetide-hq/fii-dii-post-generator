@@ -1,7 +1,6 @@
 import type { Container } from '@cloudflare/containers';
 
 export interface Env {
-  WORKER_API_KEY: string;
   TAPETIDE_API_URL: string;
   ENVIRONMENT: string;
   SCREENSHOT_CONTAINER: DurableObjectNamespace<Container>;
