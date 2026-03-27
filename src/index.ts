@@ -91,7 +91,12 @@ async function fetchPostData(env: Env, targetDate?: string): Promise<PostData> {
 
 // --- Container interaction ---
 
+const VALID_FORMATS = new Set(['twitter', 'instagram']);
+
 async function takeScreenshot(env: Env, data: PostData, format: string): Promise<ArrayBuffer> {
+  if (!VALID_FORMATS.has(format)) {
+    throw new Error(`Invalid format: ${format}. Use "twitter" or "instagram".`);
+  }
   const container = getContainer(env.SCREENSHOT_CONTAINER, 'default');
   const res = await container.fetch(`http://container/screenshot?format=${format}`, {
     method: 'POST',
