@@ -19,6 +19,10 @@ export default {
       return handleGenerate(env);
     }
 
+    if (url.pathname === '/screenshot' && request.method === 'POST') {
+      return handleScreenshot(request, env);
+    }
+
     if (url.pathname === '/preview') {
       return handlePreview(request, env);
     }
@@ -98,6 +102,36 @@ async function takeScreenshot(env: Env, data: PostData, format: string): Promise
   }
 
   return res.arrayBuffer();
+}
+
+/**
+ * POST /screenshot — stateless image generation.
+ * Send JSON data in body, get PNG back. No API fetching.
+ * Query: ?format=twitter|instagram (default: twitter)
+ */
+async function handleScreenshot(request: Request, env: Env): Promise<Response> {
+  try {
+    const data = (await request.json()) as PostData;
+    if (!data.date) {
+      return Response.json({ error: 'Missing required field: date' }, { status: 400 });
+    }
+
+    const url = new URL(request.url);
+    const format = url.searchParams.get('format') || 'twitter';
+    const imageBuffer = await takeScreenshot(env, data, format);
+    const caption = composeTweet(data);
+
+    return new Response(imageBuffer, {
+      headers: {
+        'Content-Type': 'image/png',
+        'X-Caption': encodeURIComponent(caption),
+        'Cache-Control': 'no-cache',
+      },
+    });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    return Response.json({ error: message }, { status: 500 });
+  }
 }
 
 /**
