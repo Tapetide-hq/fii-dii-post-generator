@@ -6,206 +6,248 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
-      colors: {
-        sell: '#dc2626',
-        'sell-soft': '#fef2f2',
-        buy: '#059669',
-        'buy-soft': '#ecfdf5',
-        ink: '#0f172a',
-        subtle: '#64748b',
-        muted: '#94a3b8',
-        surface: '#f8fafc',
-        card: '#ffffff',
-        divider: '#e2e8f0',
-        brand: '#0EA882',
-      }
-    }
-  }
-}
-</script>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    width: 1080px; height: 1080px; overflow: hidden;
-    font-family: 'Inter', system-ui, sans-serif;
-    -webkit-font-smoothing: antialiased;
-  }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --sell: #E0252A;
+  --sell-soft: #FFF0F0;
+  --sell-mid: #FFCDD0;
+  --buy: #0969C7;
+  --buy-soft: #EEF5FF;
+  --buy-mid: #C3DCFF;
+  --ink: #0A0F1E;
+  --ink-2: #3D4760;
+  --ink-3: #7A8499;
+  --ink-4: #B0B9C8;
+  --surface: #F5F7FA;
+  --surface-2: #ECEEF2;
+  --border: #E2E6EF;
+  --white: #FFFFFF;
+  --brand: #0EA882;
+}
+body {
+  width: 1080px; height: 1080px; overflow: hidden;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--white); color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+}
+body::before {
+  content: ''; position: absolute; inset: 0;
+  background-image: radial-gradient(circle, #C8CFDE 1px, transparent 1px);
+  background-size: 28px 28px; opacity: 0.42; pointer-events: none;
+}
+body::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 460px;
+  background: linear-gradient(155deg, #EEF5FF 0%, #FFF0F0 52%, rgba(255,255,255,0) 100%);
+  opacity: 0.72; pointer-events: none;
+}
+.layout {
+  position: relative; z-index: 1; width: 100%; height: 100%;
+  display: flex; flex-direction: column; padding: 110px 140px;
+}
+</style>
+<style>
+.header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px; }
+.brand { display: flex; align-items: center; gap: 14px; }
+.brand-icon { width: 48px; height: 48px; border-radius: 16px; background: rgba(14,168,130,0.13); display: flex; align-items: center; justify-content: center; }
+.brand-name { font-size: 20px; font-weight: 800; letter-spacing: -0.3px; line-height: 1; }
+.brand-sub { font-size: 11px; font-weight: 600; color: var(--ink-3); letter-spacing: 0.4px; margin-top: 3px; }
+.header-right { text-align: right; }
+.date-block { text-align: right; }
+.date-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 99px; padding: 5px 16px; margin-bottom: 8px; }
+.date-badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--brand); }
+.date-badge-text { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-2); }
+.date-main { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; line-height: 1; color: var(--ink); }
+.date-weekday { font-size: 13px; font-weight: 600; color: var(--ink-3); margin-top: 4px; }
+
+.hero { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 14px; }
+.hero-card { border-radius: 24px; padding: 26px 28px 22px; position: relative; overflow: hidden; }
+.hero-card.sell-card { background: var(--sell-soft); border: 1.5px solid var(--sell-mid); }
+.hero-card.buy-card { background: var(--buy-soft); border: 1.5px solid var(--buy-mid); text-align: right; }
+.hero-card::after { content: attr(data-wm); position: absolute; bottom: -14px; right: 18px; font-size: 96px; font-weight: 900; letter-spacing: -4px; line-height: 1; opacity: 0.055; pointer-events: none; }
+.hero-card.sell-card::after { color: var(--sell); }
+.hero-card.buy-card::after { color: var(--buy); }
+.hero-label { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.hero-card.buy-card .hero-label { justify-content: flex-end; }
+.hero-pip { width: 10px; height: 10px; border-radius: 50%; }
+.hero-pip.sell { background: var(--sell); }
+.hero-pip.buy { background: var(--buy); }
+.hero-tag { font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-2); }
+.hero-amount { font-size: 52px; font-weight: 900; letter-spacing: -2.5px; line-height: 1; }
+.hero-card.sell-card .hero-amount { color: var(--sell); }
+.hero-card.buy-card .hero-amount { color: var(--buy); }
+.hero-breakdown { display: flex; gap: 14px; margin-top: 10px; }
+.hero-card.buy-card .hero-breakdown { justify-content: flex-end; }
+.bd { display: flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 600; color: var(--ink-2); }
+.arr-up { color: var(--buy); font-size: 11px; }
+.arr-down { color: var(--sell); font-size: 11px; }
+</style>
+<style>
+.mid-row { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: stretch; margin-bottom: 14px; }
+.combined-box { background: var(--surface); border: 1.5px solid var(--border); border-radius: 20px; padding: 14px 26px; white-space: nowrap; display: flex; flex-direction: column; justify-content: center; }
+.combined-lbl { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
+.combined-val { font-size: 30px; font-weight: 900; letter-spacing: -1px; line-height: 1; }
+.bar-box { background: var(--surface); border: 1.5px solid var(--border); border-radius: 20px; padding: 14px 22px; display: flex; flex-direction: column; justify-content: center; }
+.bar-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.bar-meta-item { display: flex; align-items: center; gap: 7px; }
+.bm-dot { width: 8px; height: 8px; border-radius: 3px; }
+.bm-dot.sell { background: var(--sell); }
+.bm-dot.buy { background: var(--buy); }
+.bm-text { font-size: 13px; font-weight: 700; color: var(--ink-2); }
+.bm-pct { font-size: 14px; font-weight: 800; }
+.bm-pct.sell { color: var(--sell); }
+.bm-pct.buy { color: var(--buy); }
+.split-bar { width: 100%; height: 11px; border-radius: 99px; overflow: hidden; display: flex; background: var(--surface-2); }
+.split-sell { height: 100%; border-radius: 99px 0 0 99px; background: var(--sell); }
+.split-buy { height: 100%; flex: 1; background: var(--buy); border-radius: 0 99px 99px 0; }
+
+.grid-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; flex: 1; }
+.g-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 20px; padding: 18px 20px; display: flex; flex-direction: column; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.g-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.g-icon { width: 38px; height: 38px; border-radius: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.g-icon.sell-ic { background: var(--sell-soft); border: 1px solid var(--sell-mid); }
+.g-icon.buy-ic { background: var(--buy-soft); border: 1px solid var(--buy-mid); }
+.g-icon.neu-ic { background: linear-gradient(135deg, var(--sell-soft), var(--buy-soft)); border: 1px solid var(--border); }
+.g-title { font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-2); }
+.streak-main { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; }
+.streak-main.sell { color: var(--sell); }
+.streak-main.buy { color: var(--buy); }
+.streak-foot { display: flex; align-items: baseline; justify-content: space-between; margin-top: auto; padding-top: 8px; }
+.streak-foot-lbl { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-4); }
+.streak-foot-val { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; }
+.streak-foot-val.sell { color: var(--sell); }
+.streak-foot-val.buy { color: var(--buy); }
+.fao-body { display: flex; align-items: center; justify-content: space-between; flex: 1; }
+.fao-pct { font-size: 38px; font-weight: 900; letter-spacing: -1.5px; line-height: 1; }
+.fao-sent { font-size: 13px; font-weight: 700; margin-top: 3px; }
+.fao-bar-wrap { width: 78px; flex-shrink: 0; }
+.fao-mini { width: 100%; height: 11px; border-radius: 99px; overflow: hidden; display: flex; margin-bottom: 4px; }
+.fao-long { height: 100%; background: var(--buy); border-radius: 99px 0 0 99px; }
+.fao-short { height: 100%; flex: 1; background: var(--sell); border-radius: 0 99px 99px 0; }
+.fao-bar-lbls { display: flex; justify-content: space-between; }
+.fao-bar-lbls span { font-size: 11px; font-weight: 700; }
+.flows-body { display: flex; align-items: center; gap: 16px; flex: 1; }
+.flow-divider { width: 1px; height: 38px; background: var(--border); flex-shrink: 0; }
+.f-lbl { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.f-val { font-size: 17px; font-weight: 800; letter-spacing: -0.4px; }
+.f-val.sell { color: var(--sell); }
+.f-val.buy { color: var(--buy); }
+
+.footer { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; padding-top: 14px; border-top: 1.5px solid var(--border); }
+.footer-url { font-size: 16px; font-weight: 700; color: var(--brand); letter-spacing: -0.2px; }
+.footer-ig { display: flex; align-items: center; gap: 8px; color: var(--brand); }
+.footer-ig span { font-size: 16px; font-weight: 700; letter-spacing: -0.2px; color: var(--brand); }
 </style>
 </head>
-<body class="bg-white text-ink">
+<body>
 <script>/*__DATA__*/</script>
-
-<div class="flex flex-col h-[1080px] px-12 py-10">
-
-  <!-- Header -->
-  <div class="flex items-center justify-between mb-8">
-    <div class="flex items-center gap-4">
-      <div class="relative w-[56px] h-[56px] flex items-center justify-center">
-        <div class="absolute inset-0 rounded-2xl bg-brand/15"></div>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="30" height="30" class="relative z-10">
+<div class="layout">
+  <!-- HEADER -->
+  <div class="header">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="26" height="26">
           <rect x="12" y="12" width="76" height="76" rx="22" fill="none" stroke="#0EA882" stroke-width="10"/>
           <path d="M 30 66 L 45 46 L 55 54 L 70 34" fill="none" stroke="#0EA882" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
           <circle cx="30" cy="66" r="7.5" fill="#0EA882"/><circle cx="70" cy="34" r="7.5" fill="#0EA882"/>
         </svg>
       </div>
       <div>
-        <div class="text-[24px] font-extrabold tracking-tight leading-none">Tapetide</div>
-        <div class="text-[12px] font-semibold text-muted tracking-wide mt-0.5">Stock Research Platform</div>
+        <div class="brand-name">Tapetide</div>
+        <div class="brand-sub">Stock Research Platform</div>
       </div>
     </div>
-    <div class="text-right">
-      <div class="text-[22px] font-extrabold tracking-tight leading-none">FII DII Daily Update</div>
-      <div class="text-[14px] font-medium text-subtle mt-1.5" id="fullDate"></div>
-    </div>
-  </div>
-
-  <!-- Hero: FII left | DII right -->
-  <div class="grid grid-cols-2 gap-8 mb-6">
-    <!-- FII -->
-    <div>
-      <div class="flex items-center gap-2 mb-3">
-        <div class="w-3.5 h-3.5 rounded-full bg-sell"></div>
-        <span class="text-[18px] font-extrabold text-ink uppercase tracking-wide">FII / FPI</span>
-      </div>
-      <div class="text-[58px] font-black tracking-tighter leading-none" id="fiiNet"></div>
-      <div class="flex items-center gap-5 mt-3 text-subtle">
-        <div class="flex items-center gap-1.5">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
-          <span class="text-[15px] font-semibold" id="fiiBuy"></span>
-        </div>
-        <div class="flex items-center gap-1.5">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
-          <span class="text-[15px] font-semibold" id="fiiSell"></span>
-        </div>
-      </div>
-    </div>
-    <!-- DII -->
-    <div class="text-right">
-      <div class="flex items-center gap-2 mb-3 justify-end">
-        <span class="text-[18px] font-extrabold text-ink uppercase tracking-wide">DII</span>
-        <div class="w-3.5 h-3.5 rounded-full bg-buy"></div>
-      </div>
-      <div class="text-[58px] font-black tracking-tighter leading-none" id="diiNet"></div>
-      <div class="flex items-center gap-5 mt-3 justify-end text-subtle">
-        <div class="flex items-center gap-1.5">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
-          <span class="text-[15px] font-semibold" id="diiBuy"></span>
-        </div>
-        <div class="flex items-center gap-1.5">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
-          <span class="text-[15px] font-semibold" id="diiSell"></span>
-        </div>
+    <div class="header-right">
+      <div class="date-block">
+        <div class="date-badge"><div class="date-badge-dot"></div><span class="date-badge-text">FII · DII Daily</span></div>
+        <div class="date-main" id="dateMain"></div>
+        <div class="date-weekday" id="dateWeekday"></div>
       </div>
     </div>
   </div>
 
-  <!-- Net Combined -->
-  <div class="flex items-center justify-center mb-6">
-    <div class="bg-surface rounded-2xl border border-divider px-10 py-4 text-center">
-      <span class="text-[13px] font-bold text-ink uppercase tracking-widest">Net Combined</span>
-      <div class="text-[36px] font-black tracking-tight leading-tight mt-1" id="combined"></div>
-    </div>
-  </div>
-
-  <!-- Market Split Bar -->
-  <div class="mb-7">
-    <div class="flex justify-between mb-2">
-      <span class="text-[14px] font-extrabold text-sell uppercase" id="fiiPctLabel"></span>
-      <span class="text-[14px] font-extrabold text-buy uppercase" id="diiPctLabel"></span>
-    </div>
-    <div class="w-full flex h-4 rounded-full overflow-hidden">
-      <div class="h-full bg-sell rounded-l-full" id="barFii"></div>
-      <div class="h-full bg-buy rounded-r-full" id="barDii"></div>
-    </div>
-  </div>
-
-  <!-- 2x2 Grid -->
-  <div class="grid grid-cols-2 gap-5 flex-1">
-    <!-- FII Streak -->
-    <div class="bg-surface rounded-2xl border border-divider flex items-center gap-4 px-6 py-4">
-      <div class="w-14 h-14 rounded-xl flex items-center justify-center shrink-0" id="fiiStreakIcon"></div>
-      <div class="flex-1 min-w-0">
-        <div class="text-[13px] font-bold text-ink uppercase tracking-wide">FII Streak</div>
-        <div class="text-[22px] font-extrabold leading-tight mt-1" id="fiiStreakVal"></div>
-      </div>
-      <div class="text-right shrink-0">
-        <div class="text-[13px] font-bold text-ink uppercase tracking-wide">Streak Total</div>
-        <div class="text-[20px] font-extrabold leading-tight mt-1" id="fiiStreakTotal"></div>
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-card sell-card" data-wm="FII">
+      <div class="hero-label"><div class="hero-pip sell"></div><span class="hero-tag">FII / FPI</span></div>
+      <div class="hero-amount" id="fiiNet"></div>
+      <div class="hero-breakdown">
+        <div class="bd"><span class="arr-up">▲</span><span id="fiiBuy"></span></div>
+        <div class="bd"><span class="arr-down">▼</span><span id="fiiSell"></span></div>
       </div>
     </div>
-    <!-- DII Streak -->
-    <div class="bg-surface rounded-2xl border border-divider flex items-center gap-4 px-6 py-4">
-      <div class="w-14 h-14 rounded-xl flex items-center justify-center shrink-0" id="diiStreakIcon"></div>
-      <div class="flex-1 min-w-0">
-        <div class="text-[13px] font-bold text-ink uppercase tracking-wide">DII Streak</div>
-        <div class="text-[22px] font-extrabold leading-tight mt-1" id="diiStreakVal"></div>
-      </div>
-      <div class="text-right shrink-0">
-        <div class="text-[13px] font-bold text-ink uppercase tracking-wide">Streak Total</div>
-        <div class="text-[20px] font-extrabold leading-tight mt-1" id="diiStreakTotal"></div>
-      </div>
-    </div>
-    <!-- FII Index Futures L/S -->
-    <div class="bg-surface rounded-2xl border border-divider flex items-center gap-4 px-6 py-4">
-      <div class="w-14 h-14 rounded-xl flex items-center justify-center shrink-0" id="faoIcon"></div>
-      <div class="flex-1 min-w-0">
-        <div class="text-[13px] font-bold text-ink uppercase tracking-wide">FII Idx Futures L/S</div>
-        <div class="flex items-baseline gap-2 mt-1">
-          <span class="text-[24px] font-black leading-tight" id="faoLongPct"></span>
-          <span class="text-[13px] font-bold" id="faoSentiment"></span>
-        </div>
-      </div>
-      <div class="w-28 shrink-0">
-        <div class="w-full flex h-3 rounded-full overflow-hidden">
-          <div class="h-full bg-buy rounded-l-full" id="faoBarLong"></div>
-          <div class="h-full bg-sell rounded-r-full" id="faoBarShort"></div>
-        </div>
-        <div class="flex justify-between mt-1">
-          <span class="text-[10px] font-bold text-buy">Long</span>
-          <span class="text-[10px] font-bold text-sell">Short</span>
-        </div>
-      </div>
-    </div>
-    <!-- 30-Day Flows -->
-    <div class="bg-surface rounded-2xl border border-divider flex items-center gap-4 px-6 py-4">
-      <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-sell-soft to-buy-soft flex items-center justify-center shrink-0">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/>
-        </svg>
-      </div>
-      <div class="flex-1 min-w-0">
-        <div class="text-[13px] font-bold text-ink uppercase tracking-wide">30-Day Net Flows</div>
-        <div class="flex gap-6 mt-1.5">
-          <div>
-            <span class="text-[12px] font-bold text-subtle">FII </span>
-            <span class="text-[18px] font-extrabold" id="fii30d"></span>
-          </div>
-          <div>
-            <span class="text-[12px] font-bold text-subtle">DII </span>
-            <span class="text-[18px] font-extrabold" id="dii30d"></span>
-          </div>
-        </div>
+    <div class="hero-card buy-card" data-wm="DII">
+      <div class="hero-label"><span class="hero-tag">DII</span><div class="hero-pip buy"></div></div>
+      <div class="hero-amount" id="diiNet"></div>
+      <div class="hero-breakdown">
+        <div class="bd"><span class="arr-up">▲</span><span id="diiBuy"></span></div>
+        <div class="bd"><span class="arr-down">▼</span><span id="diiSell"></span></div>
       </div>
     </div>
   </div>
 
-  <!-- Footer -->
-  <div class="flex items-center justify-between mt-5">
-    <span class="text-[13px] font-semibold text-brand">tapetide.com/fii-dii-data</span>
-    <div class="flex items-center gap-2 text-subtle">
+  <!-- MID ROW -->
+  <div class="mid-row">
+    <div class="combined-box">
+      <div class="combined-lbl">Net Combined</div>
+      <div class="combined-val" id="combined"></div>
+    </div>
+    <div class="bar-box">
+      <div class="bar-meta">
+        <div class="bar-meta-item"><div class="bm-dot sell"></div><span class="bm-text">FII Selling</span><span class="bm-pct sell" id="fiiPctLabel"></span></div>
+        <div class="bar-meta-item"><span class="bm-pct buy" id="diiPctLabel"></span><span class="bm-text">DII Support</span><div class="bm-dot buy"></div></div>
+      </div>
+      <div class="split-bar">
+        <div class="split-sell" id="barFii"></div>
+        <div class="split-buy" id="barDii"></div>
+      </div>
+    </div>
+  </div>
+  <!-- 2x2 GRID -->
+  <div class="grid-2x2">
+    <div class="g-card">
+      <div class="g-top"><div class="g-icon sell-ic" id="fiiStreakIcon"></div><span class="g-title">FII Streak</span></div>
+      <div class="streak-main" id="fiiStreakVal"></div>
+      <div class="streak-foot"><span class="streak-foot-lbl">Total</span><span class="streak-foot-val" id="fiiStreakTotal"></span></div>
+    </div>
+    <div class="g-card">
+      <div class="g-top"><div class="g-icon buy-ic" id="diiStreakIcon"></div><span class="g-title">DII Streak</span></div>
+      <div class="streak-main" id="diiStreakVal"></div>
+      <div class="streak-foot"><span class="streak-foot-lbl">Total</span><span class="streak-foot-val" id="diiStreakTotal"></span></div>
+    </div>
+    <div class="g-card">
+      <div class="g-top"><div class="g-icon sell-ic" id="faoIcon"></div><span class="g-title">FII Idx Futures L/S</span></div>
+      <div class="fao-body">
+        <div><div class="fao-pct" id="faoLongPct"></div><div class="fao-sent" id="faoSentiment"></div></div>
+        <div class="fao-bar-wrap">
+          <div class="fao-mini"><div class="fao-long" id="faoBarLong"></div><div class="fao-short" id="faoBarShort"></div></div>
+          <div class="fao-bar-lbls"><span style="color:var(--buy)">Long</span><span style="color:var(--sell)">Short</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="g-card">
+      <div class="g-top"><div class="g-icon neu-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7A8499" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div><span class="g-title">30-Day Net Flows</span></div>
+      <div class="flows-body">
+        <div><div class="f-lbl">FII</div><div class="f-val" id="fii30d"></div></div>
+        <div class="flow-divider"></div>
+        <div><div class="f-lbl">DII</div><div class="f-val" id="dii30d"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span class="footer-url">tapetide.com/fii-dii-data</span>
+    <div class="footer-ig">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-      <span class="text-[13px] font-semibold leading-none">@tapetide</span>
+      <span>@tapetide</span>
     </div>
   </div>
-
 </div>
 <script>/*__SHARED__*/</script>
-<script>renderData(DATA, 26);</script>
+<script>
+renderDataV2(DATA);
+</script>
 </body>
 </html>
