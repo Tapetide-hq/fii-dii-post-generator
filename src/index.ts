@@ -7,39 +7,78 @@ export class ScreenshotContainer extends Container {
   sleepAfter = '5m';
 }
 
+/** Check if origin is allowed (tapetide.com, any subdomain, or localhost for dev) */
+function getAllowedOrigin(request: Request): string {
+  const origin = request.headers.get('Origin') || '';
+  if (
+    origin === 'https://tapetide.com' ||
+    origin.endsWith('.tapetide.com') ||
+    origin.startsWith('http://localhost:')
+  ) {
+    return origin;
+  }
+  return 'https://tapetide.com'; // default fallback
+}
+
+function corsHeaders(origin: string): Record<string, string> {
+  return {
+    'Access-Control-Allow-Origin': origin,
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Expose-Headers': 'X-Caption, X-Date',
+  };
+}
+
+/** Add CORS headers to any Response */
+function withCors(res: Response, origin: string): Response {
+  const headers = new Headers(res.headers);
+  for (const [k, v] of Object.entries(corsHeaders(origin))) {
+    headers.set(k, v);
+  }
+  return new Response(res.body, { status: res.status, statusText: res.statusText, headers });
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
-    const url = new URL(request.url);
+    const origin = getAllowedOrigin(request);
 
-    if (url.pathname === '/health') {
-      return Response.json({ status: 'ok', timestamp: new Date().toISOString() });
+    // Handle CORS preflight
+    if (request.method === 'OPTIONS') {
+      return new Response(null, { status: 204, headers: corsHeaders(origin) });
     }
 
-    // Stateless: you send PostData JSON, get PNG back
-    if (url.pathname === '/screenshot' && request.method === 'POST') {
-      return handleScreenshot(request, env);
-    }
+    // Wrap everything so even unhandled errors get CORS headers
+    try {
+      const url = new URL(request.url);
 
-    // Auto-fetch: Worker gets data from Tapetide API for a given date
-    // GET /image?format=twitter&date=2026-03-27 (date optional, defaults to latest)
-    if (url.pathname === '/image') {
-      return handleImage(request, env);
-    }
+      if (url.pathname === '/health') {
+        return withCors(Response.json({ status: 'ok', timestamp: new Date().toISOString() }), origin);
+      }
 
-    // Auto-fetch: returns both images as base64 JSON + caption
-    // GET /generate?date=2026-03-27 (date optional, defaults to latest)
-    if (url.pathname === '/generate') {
-      return handleGenerate(request, env);
-    }
+      if (url.pathname === '/screenshot' && request.method === 'POST') {
+        return withCors(await handleScreenshot(request, env), origin);
+      }
 
-    return Response.json({
-      endpoints: {
-        'POST /screenshot?format=twitter|instagram': 'Send PostData JSON, get PNG back (stateless)',
-        'GET /image?format=twitter|instagram&date=YYYY-MM-DD': 'Auto-fetch data from API, get PNG back',
-        'GET /generate?date=YYYY-MM-DD': 'Auto-fetch data, get JSON with base64 images + caption',
-        'GET /health': 'Health check',
-      },
-    });
+      if (url.pathname === '/image') {
+        return withCors(await handleImage(request, env), origin);
+      }
+
+      if (url.pathname === '/generate') {
+        return withCors(await handleGenerate(request, env), origin);
+      }
+
+      return withCors(Response.json({
+        endpoints: {
+          'POST /screenshot?format=twitter|instagram': 'Send PostData JSON, get PNG back (stateless)',
+          'GET /image?format=twitter|instagram&date=YYYY-MM-DD': 'Auto-fetch data from API, get PNG back',
+          'GET /generate?date=YYYY-MM-DD': 'Auto-fetch data, get JSON with base64 images + caption',
+          'GET /health': 'Health check',
+        },
+      }), origin);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      return withCors(Response.json({ error: message }, { status: 500 }), origin);
+    }
   },
 };
 
