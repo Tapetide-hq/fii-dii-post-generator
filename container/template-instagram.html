@@ -9,21 +9,11 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --sell: #E0252A;
-  --sell-soft: #FFF0F0;
-  --sell-mid: #FFCDD0;
-  --buy: #0969C7;
-  --buy-soft: #EEF5FF;
-  --buy-mid: #C3DCFF;
-  --ink: #0A0F1E;
-  --ink-2: #3D4760;
-  --ink-3: #7A8499;
-  --ink-4: #B0B9C8;
-  --surface: #F5F7FA;
-  --surface-2: #ECEEF2;
-  --border: #E2E6EF;
-  --white: #FFFFFF;
-  --brand: #0EA882;
+  --sell: #E0252A; --sell-soft: #FFF0F0; --sell-mid: #FFCDD0;
+  --buy: #0969C7; --buy-soft: #EEF5FF; --buy-mid: #C3DCFF;
+  --ink: #0A0F1E; --ink-2: #3D4760; --ink-3: #7A8499; --ink-4: #B0B9C8;
+  --surface: #F5F7FA; --surface-2: #ECEEF2; --border: #E2E6EF;
+  --white: #FFFFFF; --brand: #0EA882;
 }
 body {
   width: 1080px; height: 1080px; overflow: hidden;
@@ -35,119 +25,138 @@ body {
 body::before {
   content: ''; position: absolute; inset: 0;
   background-image: radial-gradient(circle, #C8CFDE 1px, transparent 1px);
-  background-size: 28px 28px; opacity: 0.42; pointer-events: none;
+  background-size: 28px 28px; opacity: 0.35; pointer-events: none;
 }
 body::after {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 460px;
   background: linear-gradient(155deg, #EEF5FF 0%, #FFF0F0 52%, rgba(255,255,255,0) 100%);
-  opacity: 0.72; pointer-events: none;
+  opacity: 0.65; pointer-events: none;
 }
+/* Top accent strip */
+.accent-strip { position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, var(--sell) 0%, var(--sell) 46%, var(--brand) 50%, var(--buy) 54%, var(--buy) 100%); z-index: 2; }
 .layout {
   position: relative; z-index: 1; width: 100%; height: 100%;
-  display: flex; flex-direction: column; padding: 110px 140px;
+  display: flex; flex-direction: column; padding: 36px 64px 32px;
 }
 </style>
 <style>
-.header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px; }
-.brand { display: flex; align-items: center; gap: 14px; }
-.brand-icon { width: 48px; height: 48px; border-radius: 16px; background: rgba(14,168,130,0.13); display: flex; align-items: center; justify-content: center; }
-.brand-name { font-size: 20px; font-weight: 800; letter-spacing: -0.3px; line-height: 1; }
-.brand-sub { font-size: 11px; font-weight: 600; color: var(--ink-3); letter-spacing: 0.4px; margin-top: 3px; }
-.header-right { text-align: right; }
+/* HEADER */
+.header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand-icon { width: 42px; height: 42px; border-radius: 12px; background: rgba(14,168,130,0.13); display: flex; align-items: center; justify-content: center; }
+.brand-name { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; line-height: 1; }
+.brand-sub { font-size: 10px; font-weight: 600; color: var(--ink-3); letter-spacing: 0.4px; margin-top: 2px; }
 .date-block { text-align: right; }
-.date-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 99px; padding: 5px 16px; margin-bottom: 8px; }
-.date-badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--brand); }
-.date-badge-text { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-2); }
-.date-main { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; line-height: 1; color: var(--ink); }
-.date-weekday { font-size: 13px; font-weight: 600; color: var(--ink-3); margin-top: 4px; }
+.date-badge { display: inline-flex; align-items: center; gap: 7px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 99px; padding: 4px 14px; margin-bottom: 6px; }
+.date-badge-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--brand); }
+.date-badge-text { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-2); }
+.date-main { font-size: 19px; font-weight: 900; letter-spacing: -0.3px; line-height: 1; color: var(--ink); }
+.date-weekday { font-size: 12px; font-weight: 600; color: var(--ink-3); margin-top: 3px; }
 
-.hero { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 14px; }
-.hero-card { border-radius: 24px; padding: 26px 28px 22px; position: relative; overflow: hidden; }
-.hero-card.sell-card { background: var(--sell-soft); border: 1.5px solid var(--sell-mid); }
-.hero-card.buy-card { background: var(--buy-soft); border: 1.5px solid var(--buy-mid); text-align: right; }
-.hero-card::after { content: attr(data-wm); position: absolute; bottom: -14px; font-size: 96px; font-weight: 900; letter-spacing: -4px; line-height: 1; opacity: 0.055; pointer-events: none; }
-.hero-card.sell-card::after { right: 18px; color: var(--sell); }
-.hero-card.buy-card::after { left: 18px; color: var(--buy); }
-.hero-label { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
-.hero-card.buy-card .hero-label { justify-content: flex-end; }
-.hero-pip { width: 10px; height: 10px; border-radius: 50%; }
-.hero-pip.sell { background: var(--sell); }
-.hero-pip.buy { background: var(--buy); }
-.hero-tag { font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-2); }
-.hero-amount { font-size: 52px; font-weight: 900; letter-spacing: -2.5px; line-height: 1; }
-.hero-card.sell-card .hero-amount { color: var(--sell); }
-.hero-card.buy-card .hero-amount { color: var(--buy); }
-.hero-breakdown { display: flex; gap: 14px; margin-top: 10px; }
-.hero-card.buy-card .hero-breakdown { justify-content: flex-end; }
-.bd { display: flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 600; color: var(--ink-2); }
-.arr-up { color: var(--buy); font-size: 11px; }
-.arr-down { color: var(--sell); font-size: 11px; }
+/* TITLE BANNER */
+.title-banner { background: linear-gradient(135deg, #F0FBF7 0%, #E6F7F1 100%); border: 1.5px solid #C2EBD9; border-radius: 16px; padding: 18px 26px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
+.title-left { display: flex; flex-direction: column; gap: 4px; }
+.title-main { font-size: 22px; font-weight: 900; letter-spacing: -0.3px; color: var(--ink); line-height: 1; }
+.title-sub { font-size: 12px; font-weight: 600; color: var(--ink-3); letter-spacing: 0.5px; }
+.title-sentiment { display: flex; align-items: center; gap: 8px; }
+.sentiment-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; border-radius: 99px; font-size: 13px; font-weight: 800; letter-spacing: 0.3px; }
+.sentiment-badge.bearish { background: var(--sell-soft); border: 1.5px solid var(--sell-mid); color: var(--sell); }
+.sentiment-badge.bullish { background: var(--buy-soft); border: 1.5px solid var(--buy-mid); color: var(--buy); }
+.sentiment-badge.neutral { background: var(--surface); border: 1.5px solid var(--border); color: var(--ink-2); }
 </style>
 <style>
-.mid-row { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: stretch; margin-bottom: 14px; }
-.combined-box { background: var(--surface); border: 1.5px solid var(--border); border-radius: 20px; padding: 14px 26px; white-space: nowrap; display: flex; flex-direction: column; justify-content: center; }
-.combined-lbl { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
-.combined-val { font-size: 30px; font-weight: 900; letter-spacing: -1px; line-height: 1; }
-.bar-box { background: var(--surface); border: 1.5px solid var(--border); border-radius: 20px; padding: 14px 22px; display: flex; flex-direction: column; justify-content: center; }
-.bar-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-.bar-meta-item { display: flex; align-items: center; gap: 7px; }
-.bm-dot { width: 8px; height: 8px; border-radius: 3px; }
+/* HERO */
+.hero { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.hero-card { border-radius: 20px; padding: 22px 24px 18px; position: relative; overflow: hidden; }
+.hero-card.sell-card { background: var(--sell-soft); border: 1.5px solid var(--sell-mid); }
+.hero-card.buy-card { background: var(--buy-soft); border: 1.5px solid var(--buy-mid); text-align: right; }
+.hero-card::after { content: attr(data-wm); position: absolute; bottom: -12px; font-size: 84px; font-weight: 900; letter-spacing: -4px; line-height: 1; opacity: 0.055; pointer-events: none; }
+.hero-card.sell-card::after { right: 16px; color: var(--sell); }
+.hero-card.buy-card::after { left: 16px; color: var(--buy); }
+.hero-label { display: flex; align-items: center; gap: 7px; margin-bottom: 8px; }
+.hero-card.buy-card .hero-label { justify-content: flex-end; }
+.hero-pip { width: 9px; height: 9px; border-radius: 50%; }
+.hero-pip.sell { background: var(--sell); }
+.hero-pip.buy { background: var(--buy); }
+.hero-tag { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-2); }
+.hero-amount { font-size: 46px; font-weight: 900; letter-spacing: -2px; line-height: 1; }
+.hero-card.sell-card .hero-amount { color: var(--sell); }
+.hero-card.buy-card .hero-amount { color: var(--buy); }
+.hero-breakdown { display: flex; gap: 12px; margin-top: 8px; }
+.hero-card.buy-card .hero-breakdown { justify-content: flex-end; }
+.bd { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: var(--ink-2); }
+.arr-up { color: var(--buy); font-size: 10px; }
+.arr-down { color: var(--sell); font-size: 10px; }
+</style>
+<style>
+/* MID ROW */
+.mid-row { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: stretch; margin-bottom: 14px; }
+.combined-box { background: var(--surface); border: 1.5px solid var(--border); border-radius: 18px; padding: 12px 24px; white-space: nowrap; display: flex; flex-direction: column; justify-content: center; }
+.combined-lbl { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.combined-val { font-size: 28px; font-weight: 900; letter-spacing: -1px; line-height: 1; }
+.bar-box { background: var(--surface); border: 1.5px solid var(--border); border-radius: 18px; padding: 12px 20px; display: flex; flex-direction: column; justify-content: center; }
+.bar-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.bar-meta-item { display: flex; align-items: center; gap: 6px; }
+.bm-dot { width: 7px; height: 7px; border-radius: 3px; }
 .bm-dot.sell { background: var(--sell); }
 .bm-dot.buy { background: var(--buy); }
-.bm-text { font-size: 13px; font-weight: 700; color: var(--ink-2); }
-.bm-pct { font-size: 14px; font-weight: 800; }
+.bm-text { font-size: 12px; font-weight: 700; color: var(--ink-2); }
+.bm-pct { font-size: 13px; font-weight: 800; }
 .bm-pct.sell { color: var(--sell); }
 .bm-pct.buy { color: var(--buy); }
-.split-bar { width: 100%; height: 11px; border-radius: 99px; overflow: hidden; display: flex; background: var(--surface-2); }
+.split-bar { width: 100%; height: 10px; border-radius: 99px; overflow: hidden; display: flex; background: var(--surface-2); }
 .split-sell { height: 100%; border-radius: 99px 0 0 99px; background: var(--sell); }
 .split-buy { height: 100%; flex: 1; background: var(--buy); border-radius: 0 99px 99px 0; }
 
-.grid-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; flex: 1; }
-.g-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 20px; padding: 18px 20px; display: flex; flex-direction: column; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
-.g-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-.g-icon { width: 38px; height: 38px; border-radius: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+/* 2x2 GRID */
+.grid-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; flex: 1; }
+.g-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 18px; padding: 16px 18px; display: flex; flex-direction: column; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.g-top { display: flex; align-items: center; gap: 9px; margin-bottom: 8px; }
+.g-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .g-icon.sell-ic { background: var(--sell-soft); border: 1px solid var(--sell-mid); }
 .g-icon.buy-ic { background: var(--buy-soft); border: 1px solid var(--buy-mid); }
 .g-icon.neu-ic { background: linear-gradient(135deg, var(--sell-soft), var(--buy-soft)); border: 1px solid var(--border); }
-.g-title { font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-2); }
-.streak-main { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; }
+.g-title { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-2); }
+.streak-main { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; }
 .streak-main.sell { color: var(--sell); }
 .streak-main.buy { color: var(--buy); }
-.streak-foot { display: flex; align-items: baseline; justify-content: space-between; margin-top: auto; padding-top: 8px; }
-.streak-foot-lbl { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-4); }
-.streak-foot-val { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; }
+.streak-foot { display: flex; align-items: baseline; justify-content: space-between; margin-top: auto; padding-top: 6px; }
+.streak-foot-lbl { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-4); }
+.streak-foot-val { font-size: 16px; font-weight: 800; letter-spacing: -0.5px; }
 .streak-foot-val.sell { color: var(--sell); }
 .streak-foot-val.buy { color: var(--buy); }
 .fao-body { display: flex; align-items: center; justify-content: space-between; flex: 1; }
-.fao-pct { font-size: 38px; font-weight: 900; letter-spacing: -1.5px; line-height: 1; }
-.fao-sent { font-size: 13px; font-weight: 700; margin-top: 3px; }
-.fao-bar-wrap { width: 78px; flex-shrink: 0; }
-.fao-mini { width: 100%; height: 11px; border-radius: 99px; overflow: hidden; display: flex; margin-bottom: 4px; }
+.fao-pct { font-size: 34px; font-weight: 900; letter-spacing: -1.5px; line-height: 1; }
+.fao-sent { font-size: 12px; font-weight: 700; margin-top: 3px; }
+.fao-bar-wrap { width: 72px; flex-shrink: 0; }
+.fao-mini { width: 100%; height: 10px; border-radius: 99px; overflow: hidden; display: flex; margin-bottom: 4px; }
 .fao-long { height: 100%; background: var(--buy); border-radius: 99px 0 0 99px; }
 .fao-short { height: 100%; flex: 1; background: var(--sell); border-radius: 0 99px 99px 0; }
 .fao-bar-lbls { display: flex; justify-content: space-between; }
-.fao-bar-lbls span { font-size: 11px; font-weight: 700; }
-.flows-body { display: flex; align-items: center; gap: 16px; flex: 1; }
-.flow-divider { width: 1px; height: 38px; background: var(--border); flex-shrink: 0; }
-.f-lbl { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
-.f-val { font-size: 17px; font-weight: 800; letter-spacing: -0.4px; }
+.fao-bar-lbls span { font-size: 10px; font-weight: 700; }
+.flows-body { display: flex; align-items: center; gap: 14px; flex: 1; }
+.flow-divider { width: 1px; height: 34px; background: var(--border); flex-shrink: 0; }
+.f-lbl { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 2px; }
+.f-val { font-size: 16px; font-weight: 800; letter-spacing: -0.4px; }
 .f-val.sell { color: var(--sell); }
 .f-val.buy { color: var(--buy); }
 
-.footer { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; padding-top: 14px; border-top: 1.5px solid var(--border); }
-.footer-url { font-size: 16px; font-weight: 700; color: var(--brand); letter-spacing: -0.2px; }
-.footer-ig { display: flex; align-items: center; gap: 8px; color: var(--brand); }
-.footer-ig span { font-size: 16px; font-weight: 700; letter-spacing: -0.2px; color: var(--brand); }
+/* FOOTER */
+.footer { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 1.5px solid var(--border); }
+.footer-url { font-size: 15px; font-weight: 700; color: var(--brand); letter-spacing: -0.2px; }
+.footer-ig { display: flex; align-items: center; gap: 7px; color: var(--brand); }
+.footer-ig span { font-size: 15px; font-weight: 700; letter-spacing: -0.2px; color: var(--brand); }
 </style>
 </head>
 <body>
 <script>/*__DATA__*/</script>
+<div class="accent-strip"></div>
 <div class="layout">
   <!-- HEADER -->
   <div class="header">
     <div class="brand">
       <div class="brand-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="26" height="26">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="22" height="22">
           <rect x="12" y="12" width="76" height="76" rx="22" fill="none" stroke="#0EA882" stroke-width="10"/>
           <path d="M 30 66 L 45 46 L 55 54 L 70 34" fill="none" stroke="#0EA882" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
           <circle cx="30" cy="66" r="7.5" fill="#0EA882"/><circle cx="70" cy="34" r="7.5" fill="#0EA882"/>
@@ -158,12 +167,21 @@ body::after {
         <div class="brand-sub">Stock Research Platform</div>
       </div>
     </div>
-    <div class="header-right">
-      <div class="date-block">
-        <div class="date-badge"><div class="date-badge-dot"></div><span class="date-badge-text">FII · DII Daily</span></div>
-        <div class="date-main" id="dateMain"></div>
-        <div class="date-weekday" id="dateWeekday"></div>
-      </div>
+    <div class="date-block">
+      <div class="date-badge"><div class="date-badge-dot"></div><span class="date-badge-text">FII · DII Daily</span></div>
+      <div class="date-main" id="dateMain"></div>
+      <div class="date-weekday" id="dateWeekday"></div>
+    </div>
+  </div>
+
+  <!-- TITLE BANNER -->
+  <div class="title-banner">
+    <div class="title-left">
+      <div class="title-main" id="titleHeadline">FII / DII Cash Market Activity</div>
+      <div class="title-sub">Institutional Buy &amp; Sell Data · NSE + BSE</div>
+    </div>
+    <div class="title-sentiment">
+      <div class="sentiment-badge" id="sentimentBadge"></div>
     </div>
   </div>
 
@@ -204,6 +222,7 @@ body::after {
       </div>
     </div>
   </div>
+
   <!-- 2x2 GRID -->
   <div class="grid-2x2">
     <div class="g-card">
@@ -227,7 +246,7 @@ body::after {
       </div>
     </div>
     <div class="g-card">
-      <div class="g-top"><div class="g-icon neu-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7A8499" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div><span class="g-title">30-Day Net Flows</span></div>
+      <div class="g-top"><div class="g-icon neu-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7A8499" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div><span class="g-title">30-Day Net Flows</span></div>
       <div class="flows-body">
         <div><div class="f-lbl">FII</div><div class="f-val" id="fii30d"></div></div>
         <div class="flow-divider"></div>
@@ -240,14 +259,12 @@ body::after {
   <div class="footer">
     <span class="footer-url">tapetide.com/fii-dii-data</span>
     <div class="footer-ig">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
       <span>@tapetide</span>
     </div>
   </div>
 </div>
 <script>/*__SHARED__*/</script>
-<script>
-renderDataV2(DATA);
-</script>
+<script>renderDataV2(DATA);</script>
 </body>
 </html>

@@ -112,13 +112,30 @@ function renderData(d, iconSize) {
   d30.textContent = fmt(d.diiNet30d); d30.className += ' ' + cls(d.diiNet30d);
 }
 
-// V2 renderer for the new Instagram template (pure CSS, no Tailwind)
+/** Compute overall market sentiment for the banner badge */
+function overallSentiment(d) {
+  // Score: positive = bullish, negative = bearish
+  var score = 0;
+  if (d.combined > 0) score += 2; else if (d.combined < 0) score -= 2;
+  if (d.fiiNet > 0) score += 1; else score -= 1;
+  if (d.diiNet > 0) score += 1; else score -= 1;
+  if (d.fiiIdxFutLongPct !== null) {
+    if (d.fiiIdxFutLongPct >= 55) score += 1;
+    else if (d.fiiIdxFutLongPct <= 40) score -= 1;
+  }
+  if (score >= 2) return { label: '📈 Bullish', cls: 'bullish' };
+  if (score <= -2) return { label: '📉 Bearish', cls: 'bearish' };
+  return { label: '⚖️ Mixed', cls: 'neutral' };
+}
+
+// V2 renderer for both templates (pure CSS, no Tailwind)
 function renderDataV2(d) {
   const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   const dt = new Date(d.date + 'T00:00:00');
   const [y, m, dd] = d.date.split('-');
-  // Date block — new format
+
+  // Date block
   var dateMainEl = document.getElementById('dateMain');
   var dateWeekdayEl = document.getElementById('dateWeekday');
   if (dateMainEl) {
@@ -128,8 +145,18 @@ function renderDataV2(d) {
   // Fallback for old template
   var fullDateEl = document.getElementById('fullDate');
   if (fullDateEl) fullDateEl.textContent = days[dt.getDay()] + ', ' + parseInt(dd) + ' ' + months[parseInt(m)-1] + ' ' + y;
+
   function fmtV2(n) { return fmt(n).replace('-', '−'); }
 
+  // Sentiment badge
+  var sentBadge = document.getElementById('sentimentBadge');
+  if (sentBadge) {
+    var sent = overallSentiment(d);
+    sentBadge.textContent = sent.label;
+    sentBadge.classList.add(sent.cls);
+  }
+
+  // Hero cards
   document.getElementById('fiiNet').textContent = fmtV2(d.fiiNet);
   document.getElementById('fiiBuy').textContent = fmtBuySell(d.fiiBuy);
   document.getElementById('fiiSell').textContent = fmtBuySell(d.fiiSell);
@@ -141,6 +168,7 @@ function renderDataV2(d) {
   combEl.textContent = fmtV2(d.combined);
   combEl.style.color = d.combined >= 0 ? 'var(--buy)' : 'var(--sell)';
 
+  // Split bar
   const totalAct = Math.abs(d.fiiSell) + Math.abs(d.diiSell);
   const fiiPct = totalAct > 0 ? Math.round((Math.abs(d.fiiSell) / totalAct) * 100) : 50;
   document.getElementById('barFii').style.width = fiiPct + '%';
@@ -148,49 +176,55 @@ function renderDataV2(d) {
   document.getElementById('fiiPctLabel').textContent = fiiPct + '%';
   document.getElementById('diiPctLabel').textContent = (100 - fiiPct) + '%';
 
+  // Dynamic bar labels
+  var fiiBarText = document.querySelector('.bar-meta-item:first-child .bm-text');
+  var diiBarText = document.querySelector('.bar-meta-item:last-child .bm-text');
+  if (fiiBarText) fiiBarText.textContent = d.fiiNet < 0 ? 'FII Selling' : 'FII Buying';
+  if (diiBarText) diiBarText.textContent = d.diiNet > 0 ? 'DII Support' : 'DII Selling';
+
   // Streaks
   function setIconV2(el, isPositive) {
-    const svg = isPositive ? arrowUpSvg(18) : arrowDownSvg(18);
-    const color = isPositive ? '#0969C7' : '#E0252A';
+    var svg = isPositive ? arrowUpSvg(18) : arrowDownSvg(18);
+    var color = isPositive ? '#0969C7' : '#E0252A';
     el.innerHTML = svg.replace('stroke="currentColor"', 'stroke="' + color + '"');
   }
   function cssClr(n) { return n >= 0 ? 'buy' : 'sell'; }
 
   setIconV2(document.getElementById('fiiStreakIcon'), d.fiiStreak > 0);
-  const fiiSV = document.getElementById('fiiStreakVal');
+  var fiiSV = document.getElementById('fiiStreakVal');
   fiiSV.textContent = streakText(d.fiiStreak);
   fiiSV.classList.add(cssClr(d.fiiStreak));
-  const fiiST = document.getElementById('fiiStreakTotal');
+  var fiiST = document.getElementById('fiiStreakTotal');
   fiiST.textContent = fmtV2(d.fiiStreakTotal);
   fiiST.classList.add(cssClr(d.fiiStreakTotal));
 
   setIconV2(document.getElementById('diiStreakIcon'), d.diiStreak > 0);
-  const diiSV = document.getElementById('diiStreakVal');
+  var diiSV = document.getElementById('diiStreakVal');
   diiSV.textContent = streakText(d.diiStreak);
   diiSV.classList.add(cssClr(d.diiStreak));
-  const diiST = document.getElementById('diiStreakTotal');
+  var diiST = document.getElementById('diiStreakTotal');
   diiST.textContent = fmtV2(d.diiStreakTotal);
   diiST.classList.add(cssClr(d.diiStreakTotal));
 
   // FAO
-  const pct = d.fiiIdxFutLongPct;
-  const sent = faoSentimentLabel(pct);
+  var pct = d.fiiIdxFutLongPct;
+  var faoSent = faoSentimentLabel(pct);
   setIconV2(document.getElementById('faoIcon'), pct !== null && pct >= 50);
-  const pctEl = document.getElementById('faoLongPct');
+  var pctEl = document.getElementById('faoLongPct');
   pctEl.textContent = pct !== null ? pct + '%' : 'N/A';
   pctEl.style.color = pct !== null && pct >= 50 ? 'var(--buy)' : 'var(--sell)';
-  const sentEl = document.getElementById('faoSentiment');
-  sentEl.textContent = sent.label;
+  var sentEl = document.getElementById('faoSentiment');
+  sentEl.textContent = faoSent.label;
   sentEl.style.color = pct !== null && pct >= 50 ? 'var(--buy)' : 'var(--sell)';
   if (pct !== null) {
     document.getElementById('faoBarLong').style.width = pct + '%';
   }
 
   // 30-day
-  const f30 = document.getElementById('fii30d');
+  var f30 = document.getElementById('fii30d');
   f30.textContent = fmtV2(d.fiiNet30d);
   f30.classList.add(cssClr(d.fiiNet30d));
-  const d30 = document.getElementById('dii30d');
+  var d30 = document.getElementById('dii30d');
   d30.textContent = fmtV2(d.diiNet30d);
   d30.classList.add(cssClr(d.diiNet30d));
 }
