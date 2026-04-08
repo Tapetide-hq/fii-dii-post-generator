@@ -54,7 +54,7 @@ body::after {
 .date-weekday { font-size: 12px; font-weight: 600; color: var(--ink-3); margin-top: 3px; }
 
 /* TITLE BANNER */
-.title-banner { background: linear-gradient(135deg, #F0FBF7 0%, #E6F7F1 100%); border: 1.5px solid #C2EBD9; border-radius: 16px; padding: 18px 26px; display: flex; align-items: center; justify-content: space-between; }
+.title-banner { background: linear-gradient(135deg, #F0FBF7 0%, #E6F7F1 100%); border: 1.5px solid #C2EBD9; border-radius: 16px; padding: 20px 26px; display: flex; align-items: center; justify-content: space-between; }
 .title-left { display: flex; flex-direction: column; gap: 4px; }
 .title-main { font-size: 22px; font-weight: 900; letter-spacing: -0.3px; color: var(--ink); line-height: 1; }
 .title-sub { font-size: 12px; font-weight: 600; color: var(--ink-3); letter-spacing: 0.5px; }
@@ -67,7 +67,7 @@ body::after {
 <style>
 /* HERO */
 .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.hero-card { border-radius: 20px; padding: 24px 26px 20px; position: relative; overflow: hidden; }
+.hero-card { border-radius: 20px; padding: 28px 26px 22px; position: relative; overflow: hidden; }
 .hero-card.sell-card { background: var(--sell-soft); border: 1.5px solid var(--sell-mid); }
 .hero-card.buy-card { background: var(--buy-soft); border: 1.5px solid var(--buy-mid); text-align: right; }
 .hero-card::after { content: attr(data-wm); position: absolute; bottom: -12px; font-size: 84px; font-weight: 900; letter-spacing: -4px; line-height: 1; opacity: 0.055; pointer-events: none; }
@@ -91,10 +91,10 @@ body::after {
 <style>
 /* MID ROW */
 .mid-row { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: stretch; }
-.combined-box { background: var(--surface); border: 1.5px solid var(--border); border-radius: 18px; padding: 12px 24px; white-space: nowrap; display: flex; flex-direction: column; justify-content: center; }
+.combined-box { background: var(--surface); border: 1.5px solid var(--border); border-radius: 18px; padding: 16px 24px; white-space: nowrap; display: flex; flex-direction: column; justify-content: center; }
 .combined-lbl { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
 .combined-val { font-size: 32px; font-weight: 900; letter-spacing: -1px; line-height: 1; }
-.bar-box { background: var(--surface); border: 1.5px solid var(--border); border-radius: 18px; padding: 12px 20px; display: flex; flex-direction: column; justify-content: center; }
+.bar-box { background: var(--surface); border: 1.5px solid var(--border); border-radius: 18px; padding: 16px 20px; display: flex; flex-direction: column; justify-content: center; }
 .bar-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
 .bar-meta-item { display: flex; align-items: center; gap: 6px; }
 .bm-dot { width: 7px; height: 7px; border-radius: 3px; }
@@ -110,7 +110,7 @@ body::after {
 
 /* 2x2 GRID */
 .grid-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.g-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 18px; padding: 14px 18px; display: flex; flex-direction: column; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.g-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 18px; padding: 18px 18px; display: flex; flex-direction: column; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
 .g-top { display: flex; align-items: center; gap: 9px; margin-bottom: 8px; }
 .g-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .g-icon.sell-ic { background: var(--sell-soft); border: 1px solid var(--sell-mid); }
