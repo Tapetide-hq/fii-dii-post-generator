@@ -36,12 +36,12 @@ body::after {
 .accent-strip { position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, var(--sell) 0%, var(--sell) 46%, var(--brand) 50%, var(--buy) 54%, var(--buy) 100%); z-index: 2; }
 .layout {
   position: relative; z-index: 1; width: 100%; height: 100%;
-  display: flex; flex-direction: column; padding: 36px 64px 32px;
+  display: flex; flex-direction: column; justify-content: space-between; padding: 36px 64px 32px;
 }
 </style>
 <style>
 /* HEADER */
-.header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.header { display: flex; align-items: center; justify-content: space-between; }
 .brand { display: flex; align-items: center; gap: 12px; }
 .brand-icon { width: 42px; height: 42px; border-radius: 12px; background: rgba(14,168,130,0.13); display: flex; align-items: center; justify-content: center; }
 .brand-name { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; line-height: 1; }
@@ -54,7 +54,7 @@ body::after {
 .date-weekday { font-size: 12px; font-weight: 600; color: var(--ink-3); margin-top: 3px; }
 
 /* TITLE BANNER */
-.title-banner { background: linear-gradient(135deg, #F0FBF7 0%, #E6F7F1 100%); border: 1.5px solid #C2EBD9; border-radius: 16px; padding: 18px 26px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
+.title-banner { background: linear-gradient(135deg, #F0FBF7 0%, #E6F7F1 100%); border: 1.5px solid #C2EBD9; border-radius: 16px; padding: 18px 26px; display: flex; align-items: center; justify-content: space-between; }
 .title-left { display: flex; flex-direction: column; gap: 4px; }
 .title-main { font-size: 22px; font-weight: 900; letter-spacing: -0.3px; color: var(--ink); line-height: 1; }
 .title-sub { font-size: 12px; font-weight: 600; color: var(--ink-3); letter-spacing: 0.5px; }
@@ -66,8 +66,8 @@ body::after {
 </style>
 <style>
 /* HERO */
-.hero { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
-.hero-card { border-radius: 20px; padding: 22px 24px 18px; position: relative; overflow: hidden; }
+.hero { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.hero-card { border-radius: 20px; padding: 24px 26px 20px; position: relative; overflow: hidden; }
 .hero-card.sell-card { background: var(--sell-soft); border: 1.5px solid var(--sell-mid); }
 .hero-card.buy-card { background: var(--buy-soft); border: 1.5px solid var(--buy-mid); text-align: right; }
 .hero-card::after { content: attr(data-wm); position: absolute; bottom: -12px; font-size: 84px; font-weight: 900; letter-spacing: -4px; line-height: 1; opacity: 0.055; pointer-events: none; }
@@ -79,7 +79,7 @@ body::after {
 .hero-pip.sell { background: var(--sell); }
 .hero-pip.buy { background: var(--buy); }
 .hero-tag { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-2); }
-.hero-amount { font-size: 46px; font-weight: 900; letter-spacing: -2px; line-height: 1; }
+.hero-amount { font-size: 52px; font-weight: 900; letter-spacing: -2.5px; line-height: 1; }
 .hero-card.sell-card .hero-amount { color: var(--sell); }
 .hero-card.buy-card .hero-amount { color: var(--buy); }
 .hero-breakdown { display: flex; gap: 12px; margin-top: 8px; }
@@ -90,10 +90,10 @@ body::after {
 </style>
 <style>
 /* MID ROW */
-.mid-row { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: stretch; margin-bottom: 14px; }
+.mid-row { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: stretch; }
 .combined-box { background: var(--surface); border: 1.5px solid var(--border); border-radius: 18px; padding: 12px 24px; white-space: nowrap; display: flex; flex-direction: column; justify-content: center; }
 .combined-lbl { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
-.combined-val { font-size: 28px; font-weight: 900; letter-spacing: -1px; line-height: 1; }
+.combined-val { font-size: 32px; font-weight: 900; letter-spacing: -1px; line-height: 1; }
 .bar-box { background: var(--surface); border: 1.5px solid var(--border); border-radius: 18px; padding: 12px 20px; display: flex; flex-direction: column; justify-content: center; }
 .bar-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
 .bar-meta-item { display: flex; align-items: center; gap: 6px; }
@@ -109,8 +109,8 @@ body::after {
 .split-buy { height: 100%; flex: 1; background: var(--buy); border-radius: 0 99px 99px 0; }
 
 /* 2x2 GRID */
-.grid-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; flex: 1; }
-.g-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 18px; padding: 16px 18px; display: flex; flex-direction: column; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.grid-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.g-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 18px; padding: 14px 18px; display: flex; flex-direction: column; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
 .g-top { display: flex; align-items: center; gap: 9px; margin-bottom: 8px; }
 .g-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .g-icon.sell-ic { background: var(--sell-soft); border: 1px solid var(--sell-mid); }
@@ -120,12 +120,12 @@ body::after {
 .streak-main { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; }
 .streak-main.sell { color: var(--sell); }
 .streak-main.buy { color: var(--buy); }
-.streak-foot { display: flex; align-items: baseline; justify-content: space-between; margin-top: auto; padding-top: 6px; }
+.streak-foot { display: flex; align-items: baseline; justify-content: space-between; margin-top: 6px; padding-top: 6px; }
 .streak-foot-lbl { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-4); }
 .streak-foot-val { font-size: 16px; font-weight: 800; letter-spacing: -0.5px; }
 .streak-foot-val.sell { color: var(--sell); }
 .streak-foot-val.buy { color: var(--buy); }
-.fao-body { display: flex; align-items: center; justify-content: space-between; flex: 1; }
+.fao-body { display: flex; align-items: center; justify-content: space-between; }
 .fao-pct { font-size: 34px; font-weight: 900; letter-spacing: -1.5px; line-height: 1; }
 .fao-sent { font-size: 12px; font-weight: 700; margin-top: 3px; }
 .fao-bar-wrap { width: 72px; flex-shrink: 0; }
@@ -134,7 +134,7 @@ body::after {
 .fao-short { height: 100%; flex: 1; background: var(--sell); border-radius: 0 99px 99px 0; }
 .fao-bar-lbls { display: flex; justify-content: space-between; }
 .fao-bar-lbls span { font-size: 10px; font-weight: 700; }
-.flows-body { display: flex; align-items: center; gap: 14px; flex: 1; }
+.flows-body { display: flex; align-items: center; gap: 14px; }
 .flow-divider { width: 1px; height: 34px; background: var(--border); flex-shrink: 0; }
 .f-lbl { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 2px; }
 .f-val { font-size: 16px; font-weight: 800; letter-spacing: -0.4px; }
@@ -142,7 +142,7 @@ body::after {
 .f-val.buy { color: var(--buy); }
 
 /* FOOTER */
-.footer { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 1.5px solid var(--border); }
+.footer { display: flex; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1.5px solid var(--border); }
 .footer-url { font-size: 15px; font-weight: 700; color: var(--brand); letter-spacing: -0.2px; }
 .footer-ig { display: flex; align-items: center; gap: 7px; color: var(--brand); }
 .footer-ig span { font-size: 15px; font-weight: 700; letter-spacing: -0.2px; color: var(--brand); }

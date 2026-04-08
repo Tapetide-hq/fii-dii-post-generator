@@ -20,11 +20,11 @@ body::before { content: ''; position: absolute; inset: 0; background-image: radi
 body::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 340px; background: linear-gradient(155deg, #EEF5FF 0%, #FFF0F0 52%, rgba(255,255,255,0) 100%); opacity: 0.65; pointer-events: none; }
 /* Top accent strip */
 .accent-strip { position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, var(--sell) 0%, var(--sell) 46%, var(--brand) 50%, var(--buy) 54%, var(--buy) 100%); z-index: 2; }
-.layout { position: relative; z-index: 1; width: 100%; height: 100%; display: flex; flex-direction: column; padding: 28px 56px 24px; }
+.layout { position: relative; z-index: 1; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: space-between; padding: 28px 56px 24px; }
 </style>
 <style>
 /* HEADER ROW */
-.header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.header { display: flex; align-items: center; justify-content: space-between; }
 .brand { display: flex; align-items: center; gap: 10px; }
 .brand-icon { width: 36px; height: 36px; border-radius: 10px; background: rgba(14,168,130,0.13); display: flex; align-items: center; justify-content: center; }
 .brand-name { font-size: 17px; font-weight: 800; letter-spacing: -0.3px; line-height: 1; }
@@ -37,7 +37,7 @@ body::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height
 .date-weekday { font-size: 11px; font-weight: 600; color: var(--ink-3); margin-top: 2px; }
 
 /* TITLE BANNER — the big headline */
-.title-banner { background: linear-gradient(135deg, #F0FBF7 0%, #E6F7F1 100%); border: 1.5px solid #C2EBD9; border-radius: 14px; padding: 14px 24px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; }
+.title-banner { background: linear-gradient(135deg, #F0FBF7 0%, #E6F7F1 100%); border: 1.5px solid #C2EBD9; border-radius: 14px; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
 .title-left { display: flex; flex-direction: column; gap: 3px; }
 .title-main { font-size: 20px; font-weight: 900; letter-spacing: -0.3px; color: var(--ink); line-height: 1; }
 .title-sub { font-size: 11px; font-weight: 600; color: var(--ink-3); letter-spacing: 0.5px; }
@@ -49,8 +49,8 @@ body::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height
 </style>
 <style>
 /* HERO */
-.hero { display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; align-items: stretch; margin-bottom: 12px; }
-.hero-card { border-radius: 18px; padding: 16px 20px 14px; position: relative; overflow: hidden; }
+.hero { display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; align-items: stretch; }
+.hero-card { border-radius: 18px; padding: 20px 24px 18px; position: relative; overflow: hidden; }
 .hero-card.sell-card { background: var(--sell-soft); border: 1.5px solid var(--sell-mid); }
 .hero-card.buy-card { background: var(--buy-soft); border: 1.5px solid var(--buy-mid); text-align: right; }
 .hero-card::after { content: attr(data-wm); position: absolute; bottom: -8px; font-size: 64px; font-weight: 900; letter-spacing: -3px; line-height: 1; opacity: 0.05; pointer-events: none; }
@@ -62,7 +62,7 @@ body::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height
 .hero-pip.sell { background: var(--sell); }
 .hero-pip.buy { background: var(--buy); }
 .hero-tag { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-2); }
-.hero-amount { font-size: 42px; font-weight: 900; letter-spacing: -2px; line-height: 1; }
+.hero-amount { font-size: 48px; font-weight: 900; letter-spacing: -2px; line-height: 1; }
 .hero-card.sell-card .hero-amount { color: var(--sell); }
 .hero-card.buy-card .hero-amount { color: var(--buy); }
 .hero-breakdown { display: flex; gap: 10px; margin-top: 6px; }
@@ -74,11 +74,11 @@ body::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height
 /* COMBINED CENTER */
 .combined-center { display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--surface); border: 1.5px solid var(--border); border-radius: 18px; padding: 12px 20px; min-width: 155px; }
 .combined-lbl { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
-.combined-val { font-size: 24px; font-weight: 900; letter-spacing: -1px; line-height: 1; }
+.combined-val { font-size: 28px; font-weight: 900; letter-spacing: -1px; line-height: 1; }
 </style>
 <style>
 /* BAR */
-.bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.bar-row { display: flex; align-items: center; gap: 12px; }
 .bar-wrap { flex: 1; }
 .bar-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
 .bar-meta-item { display: flex; align-items: center; gap: 5px; }
@@ -91,9 +91,9 @@ body::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height
 .split-sell { height: 100%; border-radius: 99px 0 0 99px; background: var(--sell); }
 .split-buy { height: 100%; flex: 1; background: var(--buy); border-radius: 0 99px 99px 0; }
 
-/* BOTTOM GRID — 4 cols */
-.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; flex: 1; }
-.g-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 14px; padding: 12px 14px; display: flex; flex-direction: column; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+/* BOTTOM GRID — 4 cols, compact height */
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.g-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 14px; padding: 10px 14px; display: flex; flex-direction: column; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
 .g-top { display: flex; align-items: center; gap: 7px; margin-bottom: 6px; }
 .g-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .g-icon.sell-ic { background: var(--sell-soft); border: 1px solid var(--sell-mid); }
@@ -102,13 +102,13 @@ body::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height
 .g-title { font-size: 10px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--ink-2); }
 .streak-main { font-size: 17px; font-weight: 800; letter-spacing: -0.4px; line-height: 1.1; }
 .streak-main.sell { color: var(--sell); } .streak-main.buy { color: var(--buy); }
-.streak-foot { display: flex; align-items: baseline; justify-content: space-between; margin-top: auto; padding-top: 5px; }
+.streak-foot { display: flex; align-items: baseline; justify-content: space-between; margin-top: 4px; padding-top: 4px; }
 .streak-foot-lbl { font-size: 9px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--ink-4); }
 .streak-foot-val { font-size: 14px; font-weight: 800; letter-spacing: -0.3px; }
 .streak-foot-val.sell { color: var(--sell); } .streak-foot-val.buy { color: var(--buy); }
 .fao-pct { font-size: 26px; font-weight: 900; letter-spacing: -1px; line-height: 1; }
 .fao-sent { font-size: 10px; font-weight: 700; margin-top: 2px; }
-.fao-bar-wrap { margin-top: auto; padding-top: 5px; }
+.fao-bar-wrap { margin-top: 4px; padding-top: 4px; }
 .fao-mini { width: 100%; height: 8px; border-radius: 99px; overflow: hidden; display: flex; margin-bottom: 3px; }
 .fao-long { height: 100%; background: var(--buy); border-radius: 99px 0 0 99px; }
 .fao-short { height: 100%; flex: 1; background: var(--sell); border-radius: 0 99px 99px 0; }
@@ -121,7 +121,7 @@ body::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height
 .flow-divider { width: 100%; height: 1px; background: var(--border); flex-shrink: 0; }
 
 /* FOOTER */
-.footer { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; padding-top: 8px; border-top: 1.5px solid var(--border); }
+.footer { display: flex; align-items: center; justify-content: space-between; padding-top: 8px; border-top: 1.5px solid var(--border); }
 .footer-url { font-size: 13px; font-weight: 700; color: var(--brand); }
 .footer-x { display: flex; align-items: center; gap: 6px; color: var(--brand); }
 .footer-x span { font-size: 13px; font-weight: 700; }
